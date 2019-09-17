@@ -14,7 +14,7 @@ def calculate_mean_and_variance(data):
     for d in data:
         variance[0] += pow((d[0] - mean[0]), 2)
         variance[1] += pow((d[1] - mean[1]), 2)
-        variance[2] += (d[0] - mean[0])*(d[1] - mean[1])
+        variance[2] += (d[0] - mean[0]) * (d[1] - mean[1])
     variance[0] = variance[0] / len(data)
     variance[1] = variance[1] / len(data)
     variance[2] = variance[2] / len(data)
@@ -22,9 +22,13 @@ def calculate_mean_and_variance(data):
 
 
 def calculate_log_likelihood_value(data, m, v):
+    log_likelihood = 0
     for d in data:
-        p1  = 1/(2*math.pi)
-    return
+        p1 = 1 / (2 * math.pi * v[2])
+        p2 = math.exp(-1 / 2 * (pow(d[0] - m[0], 2) / v[0] + pow(d[1] - m[1], 2) / v[1]))
+        log_likelihood = log_likelihood + math.log(p1*p2)
+    print(log_likelihood)
+    return log_likelihood
 
 
 data = []
@@ -34,4 +38,5 @@ with open('Dataset1.csv', 'rt')as f:
         point = (float(row[0]), float(row[1]))
         data.append(point)
 
-calculate_mean_and_variance(data)
+mean, variance = calculate_mean_and_variance(data)
+calculate_log_likelihood_value(data, mean, variance)
